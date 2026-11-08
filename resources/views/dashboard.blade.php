@@ -10,7 +10,7 @@
     segar, sampai batang yang wangi, setiap tanaman punya cerita dan kegunaan tradisionalnya sendiri.
     </p>
     <p class="mt-3 text-lg leading-relaxed text-gray-700">
-        Jelajahi koleksinya di halaman Pengelolaan, saring berdasarkan kategori, lalu kenali nama latin dan
+        Jelajahi koleksinya di halaman koleksi, saring berdasarkan kategori, lalu kenali nama latin dan
         kegunaan umumnya. Siapa tahu, setelah ini kamu jadi ingin menanam satu di rumah. Selamat menjelajah!
     </p>
 
