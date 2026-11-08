@@ -1,58 +1,140 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# TogaKu
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Katalog web sederhana untuk mengenal tanaman obat keluarga (TOGA), dibuat dengan Laravel untuk UTS Pemrograman Web. Web ini tidak memakai database tetapi data berupa array di Controller, lalu ditampilkan lewat Blade.
 
-## About Laravel
+## Tentang TogaKu
+TogaKu adalah kebun digital kecil yang merangkum 8 tanaman obat keluarga dalam satu tempat. Setiap tanaman ditampilkan dengan nama, nama latin, kategori bagian tanaman (rimpang, daun, atau batang), dan kegunaan umumnya secara tradisional.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Pengguna masuk dengan username, melihat ringkasan di Dashboard, membaca penjelasan di Profil, lalu menjelajahi daftar tanaman di halaman Koleksi (route `pengelolaan`). Di halaman ini tanaman bisa dicari berdasarkan nama dan disaring berdasarkan kategori.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Alur Web
+Login → Dashboard → Profil → Koleksi
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+| Halaman | Route | Fungsi |
+|---|---|---|
+| Login | `/` | Form username (tanpa password) |
+| Dashboard | `/dashboard` | Sapaan, total tanaman, total kategori, tanaman pilihan |
+| Profil | `/profile` | Menampilkan username dan penjelasan web |
+| Koleksi | `/pengelolaan` | Daftar tanaman, pencarian, dan filter kategori |
 
-## Learning Laravel
+## Fitur
+- Username dibawa antarhalaman lewat request parameter (`?username=...`)
+- Data tanaman dikirim dari Controller ke View, lalu ditampilkan dengan `@foreach` dan `@forelse`
+- Pencarian tanaman berdasarkan nama atau nama latin (`?q=...`), tidak peka huruf besar-kecil
+- Filter kategori lewat query string (`?kategori=...`), daftar kategori diturunkan otomatis dari data
+- Pencarian dan filter bisa dipakai bersamaan, dan username tetap terbawa
+- Pesan khusus saat hasil pencarian atau filter kosong
+- Validasi form login (username wajib diisi, maksimal 30 karakter)
+- Tampilan responsif untuk HP dan desktop
+- Efek hover pada kartu tanaman
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Request Parameter
+| Parameter | Dibaca di | Fungsi |
+|---|---|---|
+| `username` | Dashboard, Profil, Koleksi | Menampilkan nama pengguna dan menjaganya antarhalaman |
+| `kategori` | Koleksi | Menyaring tanaman berdasarkan kategori |
+| `q` | Koleksi | Mencari tanaman berdasarkan nama atau nama latin |
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Contoh: `/pengelolaan?username=budi&kategori=Daun&q=sirih`
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+## Tools yang digunakan:
+- Laravel [isi versi, cek dengan `php artisan --version`]
+- PHP [isi versi, cek dengan `php -v`]
+- Blade Templating
+- Tailwind CSS (via CDN)
+- Google Fonts (Playfair Display dan Nunito)
 
-## Agentic Development
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
-
-```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+## Struktur File
+```
+routes/web.php
+app/Http/Controllers/PageController.php
+resources/views/
+├── layouts/app.blade.php
+├── partials/head.blade.php
+├── components/
+│   ├── navbar.blade.php
+│   └── footer.blade.php
+├── login.blade.php
+├── dashboard.blade.php
+├── profile.blade.php
+└── pengelolaan.blade.php
+public/images/        (gambar tanaman)
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+## Penerapan Blade
+| Fitur Blade | Lokasi |
+|---|---|
+| `@extends` | Semua view (memakai `layouts.app`) |
+| `@section` / `@endsection` | Semua view |
+| `@yield` | `layouts/app.blade.php` |
+| `@include` | `layouts/app.blade.php` (memuat `partials.head`) |
+| `<x-navbar />` dan `<x-footer />` | `layouts/app.blade.php` |
+| `@foreach` dan `@forelse` | `dashboard.blade.php`, `pengelolaan.blade.php` |
 
-## Contributing
+## Cara Menjalankan
+1. Clone repository:
+   ```bash
+   git clone https://github.com/hilmaadiafadila-collab/UTS_PWEB_252410102001.git
+   cd UTS_PWEB_252410102001
+   ```
+2. Install dependensi:
+   ```bash
+   composer install
+   ```
+3. Siapkan environment:
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
+4. Jalankan server:
+   ```bash
+   php artisan serve
+   ```
+5. Buka `http://127.0.0.1:8000`.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Screenshot
 
-## Code of Conduct
+### Login
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
 
-## Security Vulnerabilities
+![Login]
+<img width="1365" height="714" alt="login" src="https://github.com/user-attachments/assets/9f2be576-46d7-443f-9e35-43cfffddc458" />
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
-## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### Dashboard
+
+
+![Dashboard]
+<img width="1365" height="721" alt="Dashboard" src="https://github.com/user-attachments/assets/6a95ed73-1a85-47ec-92c8-09da2155252c" />
+
+
+
+
+### Profil
+
+
+![Profil]
+<img width="1365" height="721" alt="profil" src="https://github.com/user-attachments/assets/030d2f13-84ae-4c04-b52f-d7d23513c2cc" />
+
+
+
+### Koleksi
+
+
+![Koleksi]
+<img width="1365" height="719" alt="koleksi" src="https://github.com/user-attachments/assets/a8fe4ce5-da96-476f-bac8-faff5252b41d" />
+
+
+
+### Koleksi dengan pencarian dan filter
+
+
+![Pencarian]
+<img width="1365" height="682" alt="pencarian" src="https://github.com/user-attachments/assets/3eaac007-e28c-4553-93ff-72c76dd7f3d6" />
+
+<img width="1365" height="681" alt="kategori" src="https://github.com/user-attachments/assets/a3147f70-87c1-4700-a333-7e283bb152e5" />
+
+
+## Catatan
+Informasi tanaman bersifat umum dan bukan pengganti saran dokter atau tenaga kesehatan.
