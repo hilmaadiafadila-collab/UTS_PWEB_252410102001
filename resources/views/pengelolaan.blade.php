@@ -5,6 +5,19 @@
 @section('content')
     <h1 class="text-2xl font-bold mb-4">Koleksi Tanaman Toga</h1>
 
+    {{-- Pencarian --}}
+    <form action="{{ route('pengelolaan') }}" method="GET" class="flex gap-2 mb-4">
+        <input type="hidden" name="username" value="{{ $username }}">
+        @if ($kategoriAktif)
+            <input type="hidden" name="kategori" value="{{ $kategoriAktif }}">
+        @endif
+        <input type="text" name="q" value="{{ $cari }}" placeholder="Cari nama tanaman..."
+            class="flex-1 border border-green-200 rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">
+        <button type="submit" class="bg-green-700 hover:bg-green-800 text-white rounded-xl px-4 py-2 transition">
+            Cari
+        </button>
+    </form>
+
     {{-- Filter kategori --}}
     <div class="flex flex-wrap gap-2 mb-6">
         <a href="{{ route('pengelolaan', ['username' => $username]) }}"
@@ -33,7 +46,7 @@
                 </div>
             </div>
         @empty
-            <p class="text-gray-500">Tidak ada tanaman di kategori ini.</p>
+            <p class="text-gray-500">Tidak ada tanaman yang cocok.</p>
         @endforelse
     </div>
 @endsection

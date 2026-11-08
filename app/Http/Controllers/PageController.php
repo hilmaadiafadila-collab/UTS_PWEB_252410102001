@@ -66,15 +66,23 @@ class PageController extends Controller
     {
         $tanaman  = $this->dataTanaman();
         $kategori = $request->query('kategori');
+        $cari     = trim($request->query('q', ''));
 
         if ($kategori) {
             $tanaman = array_filter($tanaman, fn ($t) => $t['kategori'] === $kategori);
+        }
+
+        if ($cari !== '') {
+            $tanaman = array_filter($tanaman, fn ($t) =>
+                str_contains(mb_strtolower($t['nama'] . ' ' . $t['latin']), mb_strtolower($cari))
+            );
         }
 
         return view('pengelolaan', [
             'username'       => $request->query('username', 'Tamu'),
             'tanaman'        => $tanaman,
             'kategoriAktif'  => $kategori,
+            'cari'           => $cari,
             'daftarKategori' => array_values(array_unique(array_column($this->dataTanaman(), 'kategori'))),
         ]);
     }
