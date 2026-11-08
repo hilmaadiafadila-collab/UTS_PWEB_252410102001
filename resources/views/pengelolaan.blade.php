@@ -11,7 +11,7 @@
         @if ($kategoriAktif)
             <input type="hidden" name="kategori" value="{{ $kategoriAktif }}">
         @endif
-        <input type="text" name="q" value="{{ $cari }}" placeholder="Cari nama tanaman..."
+        <input type="text" name="q" value="{{ $cari }}" placeholder="Cari nama atau nama latin..."
             class="flex-1 border border-green-200 rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">
         <button type="submit" class="bg-green-700 hover:bg-green-800 text-white rounded-xl px-4 py-2 transition">
             Cari
@@ -20,12 +20,12 @@
 
     {{-- Filter kategori --}}
     <div class="flex flex-wrap gap-2 mb-6">
-        <a href="{{ route('pengelolaan', ['username' => $username]) }}"
+        <a href="{{ route('pengelolaan', ['username' => $username, 'q' => $cari]) }}"
            class="px-3 py-1 rounded-full border {{ !$kategoriAktif ? 'bg-green-700 text-white' : 'bg-white' }}">
             Semua
         </a>
         @foreach ($daftarKategori as $k)
-            <a href="{{ route('pengelolaan', ['username' => $username, 'kategori' => $k]) }}"
+            <a href="{{ route('pengelolaan', ['username' => $username, 'kategori' => $k, 'q' => $cari]) }}"
                class="px-3 py-1 rounded-full border {{ $kategoriAktif === $k ? 'bg-green-700 text-white' : 'bg-white' }}">
                 {{ $k }}
             </a>
