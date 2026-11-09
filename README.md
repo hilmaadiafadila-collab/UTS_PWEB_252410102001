@@ -3,7 +3,7 @@
 Katalog web sederhana untuk mengenal tanaman obat keluarga (TOGA), dibuat dengan Laravel untuk UTS Pemrograman Web. Web ini tidak memakai database tetapi data berupa array di Controller, lalu ditampilkan lewat Blade.
 
 ## Tentang TogaKu
-TogaKu adalah kebun digital kecil yang merangkum 8 tanaman obat keluarga dalam satu tempat. Setiap tanaman ditampilkan dengan nama, nama latin, kategori bagian tanaman (rimpang, daun, atau batang), dan kegunaan umumnya secara tradisional.
+TogaKu adalah kebun digital kecil yang merangkum tanaman obat keluarga dalam satu tempat. Setiap tanaman ditampilkan dengan nama, nama latin, kategori bagian tanaman (rimpang, daun, atau batang), dan kegunaan umumnya secara tradisional.
 
 Pengguna masuk dengan username, melihat ringkasan di Dashboard, membaca penjelasan di Profil, lalu menjelajahi daftar tanaman di halaman Koleksi (route `pengelolaan`). Di halaman ini tanaman bisa dicari berdasarkan nama dan disaring berdasarkan kategori.
 
